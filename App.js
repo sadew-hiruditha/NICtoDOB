@@ -36,7 +36,7 @@ export default function TabOneScreen() {
 
     if (NICNo.length !== 10 && NICNo.length !== 12) {
       setError("Invalid NIC NO");
-    } else if (NICNo.length === 10 && !/^\d+$/.test(NICNo.substr(0, 9))) {
+    } else if (NICNo.length === 10 && !/^\d+[vVxX]$/.test(NICNo)) {
       setError("Invalid NIC NO");
     } else {
       // Year
@@ -57,19 +57,52 @@ export default function TabOneScreen() {
       }
 
       // Day Digit Validation
+      // ... other code
+
+      // Day Digit Validation
       if (dayText < 1 || dayText > 366) {
         setError("Invalid NIC NO");
       } else {
         //Month
-        // ... other code
-
         if (dayText > 335) {
-          day = (dayText - 335).toString();
+          day = dayText - 335;
           month = "December";
         } else if (dayText > 305) {
-          day = (dayText - 305).toString();
+          day = dayText - 305;
           month = "November";
+        } else if (dayText > 274) {
+          day = dayText - 274;
+          month = "October";
+        } else if (dayText > 244) {
+          day = dayText - 244;
+          month = "September";
+        } else if (dayText > 213) {
+          day = dayText - 213;
+          month = "August";
+        } else if (dayText > 182) {
+          day = dayText - 182;
+          month = "July";
+        } else if (dayText > 152) {
+          day = dayText - 152;
+          month = "June";
+        } else if (dayText > 121) {
+          day = dayText - 121;
+          month = "May";
+        } else if (dayText > 91) {
+          day = dayText - 91;
+          month = "April";
+        } else if (dayText > 60) {
+          day = dayText - 60;
+          month = "March";
+        } else if (dayText > 31) {
+          day = dayText - 31;
+          month = "February";
+        } else {
+          day = dayText;
+          month = "January";
         }
+
+        day = day.toString();
 
         const monthNumber = monthNamesToNumbers[month];
         setDob(year + "-" + monthNumber + "-" + day);
@@ -89,13 +122,22 @@ export default function TabOneScreen() {
     <View style={styles.container}>
       <View style={styles.tasksWrapper}>
         <Text style={styles.sectionTitile}>NIC Converter</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter NIC Number"
-          onChangeText={(text) => setNICNo(text)}
-          value={NICNo}
-          keyboardType="default"
-        />
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter NIC Number"
+            onChangeText={(text) => setNICNo(text)}
+            value={NICNo}
+            keyboardType="numeric"
+          />
+          <View style={{ width: 50 }}>
+            <Button
+              title="V"
+              onPress={() => setNICNo((prevNICNo) => prevNICNo + "V")}
+              color="#239cffe4"
+            />
+          </View>
+        </View>
         <Button
           title="Find Details"
           onPress={handleFindDetails}
@@ -112,8 +154,8 @@ export default function TabOneScreen() {
           <Text style={styles.output}>{age ? age : null}</Text>
         </View>
         <View style={styles.footer}>
-        <Text style={styles.bottom}>&lt;/Sadew Hiruditha&gt;</Text>
-      </View>
+          <Text style={styles.bottom}>&lt;/Sadew Hiruditha&gt;</Text>
+        </View>
       </View>
     </View>
   );
@@ -142,6 +184,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 10,
     marginBottom: 10,
+    width: "80%",
+    marginRight: 20,
   },
   error: {
     color: "red",
@@ -165,15 +209,14 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   footer: {
-  
-    width: '100%',
+    width: "100%",
     marginTop: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 10,
     padding: 10,
   },
-  bottom:{
+  bottom: {
     color: "rgba(217, 217, 217, 0.315)",
     fontSize: 16,
     textAlign: "center",
